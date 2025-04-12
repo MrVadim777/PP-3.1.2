@@ -1,6 +1,6 @@
 -- Роли
-INSERT INTO roles (id, name) VALUES (1, 'USER');
-INSERT INTO roles (id, name) VALUES (2, 'ADMIN');
+INSERT INTO roles (id, name) VALUES (1, 'ROLE_USER');
+INSERT INTO roles (id, name) VALUES (2, 'ROLE_ADMIN');
 
 -- Пользователи
 INSERT INTO users (id, name, last_name, email, password)
@@ -15,7 +15,7 @@ VALUES (1, 'Иван', 'Иванов', 'ivan@mail.com', '111111'),
 INSERT INTO users_roles (user_id, role_id) VALUES (1, 2); -- Иван → ADMIN
 INSERT INTO users_roles (user_id, role_id) VALUES (1, 1); -- Иван → USER
 INSERT INTO users_roles (user_id, role_id) VALUES (2, 1); -- Сергей → USER
-INSERT INTO users_roles (user_id, role_id) VALUES (3, 1); -- Артём → USER
+INSERT INTO users_roles (user_id, role_id) VALUES (3, 2); -- Артём → USER
 INSERT INTO users_roles (user_id, role_id) VALUES (4, 1); -- Вадим → USER
 INSERT INTO users_roles (user_id, role_id) VALUES (5, 1); -- Артур → USER
 INSERT INTO users_roles (user_id, role_id) VALUES (6, 1); -- Артур → USER

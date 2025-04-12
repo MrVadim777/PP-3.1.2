@@ -61,7 +61,8 @@
 
         <p class="field-label">Роли:</p>
         <p class="field-value" id="sidebarRoles">
-            <span th:each="role : ${user.roles}" th:text="${role.name} + ' '">USER</span>
+            <span th:each="role : ${user.roles}"
+                  th:text="${#strings.replace(role.name, 'ROLE_', '') + ' '}">USER</span>
         </p>
     </div>
 

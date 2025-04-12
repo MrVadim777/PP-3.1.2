@@ -53,13 +53,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user : ${users}">
+                <tr th:each="user : ${users}" th:attr="data-user-id=${user.id}">
                     <td th:text="${user.id}">1</td>
                     <td th:text="${user.name}">Имя</td>
                     <td th:text="${user.lastName}">Фамилия</td>
                     <td th:text="${user.email}">email</td>
-                    <td>
-                        <span th:each="role : ${user.roles}" th:text="${role.name} + ' '">USER</span>
+                    <td class="user-roles">
+                        <span th:each="role : ${user.roles}" th:text="${role.name.replace('ROLE_', '') + ' '}">USER</span>
                     </td>
                     <td>
                         <button class="btn btn-primary btn-sm btn-block edit-btn"

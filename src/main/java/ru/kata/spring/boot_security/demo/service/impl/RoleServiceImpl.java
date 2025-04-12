@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -23,6 +24,12 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Role> getRolesByNames(List<String> names) {
+        return roleRepository.findByNameIn(names);
     }
 
     @Transactional(readOnly = true)

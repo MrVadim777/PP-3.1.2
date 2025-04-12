@@ -100,4 +100,48 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    const adminForm = document.getElementById('adminEditForm');
+    if (adminForm) {
+        adminForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const id = document.getElementById('adminEditId').value;
+
+            const selectedRoles = Array.from(document.getElementById('adminRoles').selectedOptions)
+                .map(opt => ({
+                    id: parseInt(opt.value),
+                    name: 'ROLE_' + opt.textContent.trim()
+                }));
+
+            const response = await fetch(`/api/users/${id}/roles`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(selectedRoles)
+            });
+
+            if (response.ok) {
+                $('#adminEditModal').modal('hide');
+                alert('Роли обновлены');
+
+                const updatedRolesText = selectedRoles
+                    .map(r => `<span>${r.name.replace('ROLE_', '')}</span>`)
+                    .join(' ');
+
+                const userRow = document.querySelector(`tr[data-user-id="${id}"]`);
+                const rolesCell = userRow?.querySelector('.user-roles');
+
+                if (rolesCell) {
+                    rolesCell.innerHTML = updatedRolesText;
+                    console.log('Роль изменена на: ', rolesCell);
+                }
+
+            } else {
+                const error = await response.text();
+                alert('Ошибка при обновлении ролей: ' + error);
+            }
+        });
+    }
 });
