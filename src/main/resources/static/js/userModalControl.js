@@ -44,8 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             $('#editModal').modal('show');
         }
-
-        // сохранить roles для использования в submit
         window._currentUserRoles = roles;
     });
 
@@ -81,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const updatedUser = await response.json();
                 $('#editModal').modal('hide');
 
+                // Обновляем sidebar
                 document.getElementById('sidebarName').textContent = updatedUser.name;
                 document.getElementById('sidebarLastName').textContent = updatedUser.lastName;
                 document.getElementById('sidebarEmail').textContent = updatedUser.email;
@@ -89,14 +88,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 rolesEl.innerHTML = '';
                 updatedUser.roles.forEach(role => {
                     const span = document.createElement('span');
-                    span.textContent = role.name + ' ';
+                    span.textContent = role.name.replace('ROLE_', '') + ' ';
                     rolesEl.appendChild(span);
                 });
 
+                // 🔄 Добавить вот это:
+                const currentUserId = document.body.getAttribute('data-current-user-id');
+                const userRow = document.querySelector(`tr[data-user-id="${currentUserId}"]`);
+
+                if (userRow) {
+                    userRow.children[1].textContent = updatedUser.name;
+                    userRow.children[2].textContent = updatedUser.lastName;
+                    userRow.children[3].textContent = updatedUser.email;
+
+                    const rolesCell = userRow.querySelector('.user-roles');
+                    rolesCell.innerHTML = updatedUser.roles
+                        .map(r => `<span>${r.name.replace('ROLE_', '')}</span>`)
+                        .join(' ');
+                }
+
                 alert('Профиль обновлён');
-            } else {
-                const error = await response.text();
-                alert('Ошибка при обновлении: ' + error);
             }
         });
     }
