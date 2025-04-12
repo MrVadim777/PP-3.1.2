@@ -44,8 +44,8 @@
     </style>
 
     <!-- Заголовок -->
-    <span th:class="${#lists.contains(user.roles.![name], 'ADMIN') ? 'badge text-uppercase fw-bold bg-danger' : 'badge text-uppercase fw-bold bg-primary'}" style="font-size: 1.25rem;"
-          th:text="${#lists.contains(user.roles.![name], 'ADMIN') ? 'АДМИНИСТРАТОР' : 'ПОЛЬЗОВАТЕЛЬ'}">
+    <span th:class="${#lists.contains(user.roles.![name], 'ROLE_ADMIN') ? 'badge text-uppercase fw-bold bg-danger' : 'badge text-uppercase fw-bold bg-primary'}" style="font-size: 1.25rem;"
+          th:text="${#lists.contains(user.roles.![name], 'ROLE_ADMIN') ? 'АДМИНИСТРАТОР' : 'ПОЛЬЗОВАТЕЛЬ'}">
 </span>
 
     <!-- Информация -->
