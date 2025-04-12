@@ -1,0 +1,68 @@
+# Компилированные файлы и каталоги
+target/
+out/
+*.class
+
+# Файлы настроек IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Логи и временные файлы
+*.log
+hs_err_pid*
+.DS_Store
+Thumbs.db
+
+# Файлы зависимостей
+*.jar
+*.war
+*.ear
+lib/
+
+# Конфигурационные файлы с чувствительными данными
+application-*.yml
+application-*.properties
+.env
+*.keystore
+*.p12
+
+# Git-игнор для Maven и Gradle
+.mvn/
+!**/src/main/**/.mvn
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+build/
+target/
+**/target/
+**/out/
+**/bin/
+**/*.log
+
+# Gradle
+.gradle/
+build/
+!gradle-wrapper.jar
+.gradle/
+**/build/
+gradle-app.setting
+
+# Lombok
+*.lombok.config
+
+# Кеши и файлы CI/CD
+/.m2/
+/.yarn/
+.yarn.lock
+node_modules/

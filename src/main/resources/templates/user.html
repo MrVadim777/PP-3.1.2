@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль пользователя</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            width: 300px;
+            background-color: #ffffff;
+            border-right: 1px solid #dee2e6;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .main-content {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .info-box {
+            border: 1px solid #000;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f1f1f1;
+            text-align: left;
+        }
+
+        .profile-button,
+        .logout-button {
+            padding: 6px 12px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .profile-button:hover,
+        .logout-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+
+    <div class="main-content">
+        <h2 class="mb-4">Добро пожаловать!</h2>
+        <p>Это ваш профиль. Здесь может быть личная информация, настройки и т.д.</p>
+    </div>
+</div>
+</body>
+</html>
