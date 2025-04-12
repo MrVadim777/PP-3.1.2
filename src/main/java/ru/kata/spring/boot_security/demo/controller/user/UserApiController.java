@@ -22,6 +22,10 @@ public class UserApiController {
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
+    @GetMapping("/get")
+    public ResponseEntity<User> getUserById(@RequestParam Long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {

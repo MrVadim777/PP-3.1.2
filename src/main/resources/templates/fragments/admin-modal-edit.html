@@ -1,0 +1,49 @@
+<!-- templates/fragments/admin-modal-edit.html -->
+<div th:fragment="adminEditModal">
+    <div class="modal fade" id="adminEditModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form th:action="@{/edit}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Редактирование</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="adminEditName">ID пользователя</label>
+                            <input type="text" class="form-control" name="id" id="adminEditId" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminEditName">Имя</label>
+                            <input type="text" class="form-control" id="adminEditName" name="name" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminEditLastName">Фамилия</label>
+                            <input type="text" class="form-control" id="adminEditLastName" name="lastName" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminEditEmail">Почта</label>
+                            <input type="email" class="form-control" id="adminEditEmail" name="email" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminRoles">Роли</label>
+                            <select multiple class="form-control" id="adminRoles" name="roles" required>
+                                <option value="1">ADMIN</option>
+                                <option value="2">USER</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-success">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
