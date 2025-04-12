@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+export function setupDeleteButtons() {
     const table = document.querySelector('.table');
     const currentUserId = document.body.getAttribute('data-current-user-id');
 
@@ -36,4 +36,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-});
+}

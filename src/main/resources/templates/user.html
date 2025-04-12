@@ -21,7 +21,7 @@
 
 </head>
 
-<body>
+<body th:attr="data-current-user-id=${user.id}">
 <div class="d-flex">
 
     <!-- Подключение sidebar -->
@@ -36,7 +36,7 @@
 </div>
 
 <!-- скрипт модального окна -->
-<script src="/js/userModalControl.js"></script>
+<script type="module" src="/js/userModalControl.js"></script>
 
 </body>
 </html>
