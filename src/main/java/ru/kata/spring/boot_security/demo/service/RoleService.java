@@ -11,6 +11,8 @@ public interface RoleService {
 
     Role getRoleById(Long id);
 
+    Role getRoleByName(String name);
+
     void saveRole(Role role);
 
     void updateRole(Role role);

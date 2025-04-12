@@ -39,6 +39,12 @@ public class RoleServiceImpl implements RoleService {
                 .orElseThrow(() -> new NoSuchElementException("Роль с id: " + id + " не найдена"));
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Role getRoleByName(String name) {
+        return roleRepository.findByName(name);
+    }
+
     @Override
     public void saveRole(Role role) {
         roleRepository.save(role);

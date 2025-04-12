@@ -2,6 +2,10 @@ package ru.kata.spring.boot_security.demo.controller.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
@@ -17,10 +21,12 @@ public class UserApiController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final AuthenticationManager authenticationManager;
 
-    public UserApiController(final UserService userService, final RoleService roleService) {
+    public UserApiController(final UserService userService, final RoleService roleService, final AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.roleService = roleService;
+        this.authenticationManager = authenticationManager;
     }
 
     @GetMapping
@@ -34,8 +40,15 @@ public class UserApiController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        user.setRoles(List.of(roleService.getRoleByName("ROLE_USER")));
         userService.saveUser(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+        Authentication authentication = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
