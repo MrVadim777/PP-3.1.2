@@ -14,7 +14,7 @@ export function setupRegisterForm() {
         // Устанавливаем роль по умолчанию — USER
         const selectedRoles = [{ name: 'ROLE_USER' }];
 
-        const response = await fetch('/api/users', {
+        const response = await fetch('/api/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, lastName, email, password, roles: selectedRoles })

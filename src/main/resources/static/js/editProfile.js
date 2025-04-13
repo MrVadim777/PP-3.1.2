@@ -5,7 +5,7 @@ export function setupProfileForm() {
         if (!btn) return;
 
         const id = btn.getAttribute('data-id');
-        const responseUser = await fetch(`/api/users/get?id=${id}`);
+        const responseUser = await fetch(`/api/user/getMyProfile`);
         const userData = await responseUser.json();
 
         document.getElementById('editId').value = userData.id;
@@ -33,7 +33,7 @@ export function setupProfileForm() {
         const password = document.getElementById('editPassword').value;
         const roles = window._currentUserRoles || [];
 
-        const response = await fetch(`/api/users/${id}`, {
+        const response = await fetch(`/api/user/updateMyProfile`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id, name, lastName, email, password, roles })

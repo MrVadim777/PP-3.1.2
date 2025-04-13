@@ -3,9 +3,11 @@ package ru.kata.spring.boot_security.demo.security;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+@Service
 public class SecurityUserDetailService implements UserDetailsService {
 
     private final UserService userService;
@@ -24,6 +26,6 @@ public class SecurityUserDetailService implements UserDetailsService {
                     "Пользователь с email " + email + " не найден");
         }
 
-        return new UserDetailService(user);
+        return new SecurityUser(user);
     }
 }

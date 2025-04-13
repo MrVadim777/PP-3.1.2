@@ -1,14 +1,13 @@
 export function setupAdminForm() {
 
     document.querySelectorAll('.edit-btn[data-target="#adminEditModal"]')
-        .forEach(btn => btn.addEventListener('click', async () => {
+        .forEach(btn => btn.addEventListener('click', () => {
             const id = btn.getAttribute('data-id');
             const name = btn.getAttribute('data-name');
             const lastName = btn.getAttribute('data-lastname');
             const email = btn.getAttribute('data-email');
-
-            const responseUser = await fetch(`/api/users/get?id=${id}`);
-            const userData = await responseUser.json();
+            const rolesStr = btn.getAttribute('data-roles') || "";
+            const roleNames = rolesStr.split(',');
 
             document.getElementById('adminEditId').value = id;
             document.getElementById('adminEditName').value = name;
@@ -16,13 +15,9 @@ export function setupAdminForm() {
             document.getElementById('adminEditEmail').value = email;
 
             const roleSelect = document.getElementById('adminRoles');
-            Array.from(roleSelect.options).forEach(option => option.selected = false);
-            userData.roles.forEach(role => {
-                for (let option of roleSelect.options) {
-                    if (option.text === role.name.replace('ROLE_', '')) {
-                        option.selected = true;
-                    }
-                }
+            Array.from(roleSelect.options).forEach(option => {
+                const fullRole = 'ROLE_' + option.textContent.trim();
+                option.selected = roleNames.includes(fullRole);
             });
 
             $('#adminEditModal').modal('show');
@@ -33,7 +28,6 @@ export function setupAdminForm() {
 
     adminForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        event.stopPropagation();
 
         const id = document.getElementById('adminEditId').value;
         const selectedRoles = Array.from(document.getElementById('adminRoles').selectedOptions)
@@ -42,7 +36,7 @@ export function setupAdminForm() {
                 name: 'ROLE_' + opt.textContent.trim()
             }));
 
-        const response = await fetch(`/api/users/${id}/roles`, {
+        const response = await fetch(`/api/admin/users/${id}/roles`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(selectedRoles)

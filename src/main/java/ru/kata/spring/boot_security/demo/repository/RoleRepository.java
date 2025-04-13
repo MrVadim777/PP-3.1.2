@@ -3,10 +3,10 @@ package ru.kata.spring.boot_security.demo.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.kata.spring.boot_security.demo.entity.Role;
 
-import java.util.List;
+import java.util.Set;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    List<Role> findByNameIn(List<String> names);
+    Set<Role> findByNameIn(Set<String> names);
     Role findByName(String name);
 
 }

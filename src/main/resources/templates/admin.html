@@ -62,15 +62,22 @@
                         <span th:each="role : ${user.roles}" th:text="${role.name.replace('ROLE_', '') + ' '}">USER</span>
                     </td>
                     <td>
-                        <button class="btn btn-primary btn-sm btn-block edit-btn"
-                                data-toggle="modal"
-                                data-target="#adminEditModal"
-                                th:attr="data-id=${user.id},
-                                         data-name=${user.name},
-                                         data-lastname=${user.lastName},
-                                         data-email=${user.email}">
-                            Редактировать
-                        </button>
+                        <th:block th:with="rolesStr=''" >
+                            <th:block th:each="role, iterStat : ${user.roles}"
+                                      th:with="rolesStr=${rolesStr + (iterStat.first ? '' : ',') + role.name}">
+                            </th:block>
+
+                            <button class="btn btn-primary btn-sm btn-block edit-btn"
+                                    data-toggle="modal"
+                                    data-target="#adminEditModal"
+                                    th:attr="data-id=${user.id},
+                         data-name=${user.name},
+                         data-lastname=${user.lastName},
+                         data-email=${user.email},
+                         data-roles=${rolesStr}">
+                                Редактировать
+                            </button>
+                        </th:block>
                     </td>
                     <td>
                         <button class="btn btn-danger btn-sm btn-block delete-btn"

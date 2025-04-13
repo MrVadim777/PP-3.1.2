@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.service.impl;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entity.Role;
@@ -9,15 +10,20 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Transactional
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(final UserRepository userRepository) {
+    public UserServiceImpl(final UserRepository userRepository,
+                           final PasswordEncoder passwordEncoder) {
+
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -42,6 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -50,11 +57,16 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsById(user.getId())) {
             throw new NoSuchElementException("Пользователь для обновления не найден");
         }
+
+        if (!user.getPassword().startsWith("$2a$")) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         userRepository.save(user);
     }
 
     @Override
-    public void updateUserRoles(Long userId, List<Role> roles) {
+    public void updateUserRoles(Long userId, Set<Role> roles) {
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("Пользователь для обновления не найден"));
 

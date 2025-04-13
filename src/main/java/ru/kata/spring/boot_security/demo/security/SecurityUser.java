@@ -8,11 +8,11 @@ import ru.kata.spring.boot_security.demo.entity.User;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class UserDetailService implements UserDetails {
+public class SecurityUser implements UserDetails {
 
     private final User user;
 
-    public UserDetailService(final User user) {
+    public SecurityUser(final User user) {
         this.user = user;
     }
 
@@ -51,5 +51,9 @@ public class UserDetailService implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Long getId() {
+        return user.getId();
     }
 }

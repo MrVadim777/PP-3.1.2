@@ -6,9 +6,9 @@ import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Transactional
 @Service
@@ -22,13 +22,13 @@ public class RoleServiceImpl implements RoleService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public Set<Role> getAllRoles() {
+        return new HashSet<>(roleRepository.findAll());
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Role> getRolesByNames(List<String> names) {
+    public Set<Role> getRolesByNames(Set<String> names) {
         return roleRepository.findByNameIn(names);
     }
 
