@@ -15,7 +15,7 @@ export function setupDeleteButtons() {
 
             if (confirm('Вы уверены, что хотите удалить пользователя?')) {
                 try {
-                    const response = await fetch(`/api/users/${userId}`, {
+                    const response = await fetch(`/api/admin/users/${userId}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json'
