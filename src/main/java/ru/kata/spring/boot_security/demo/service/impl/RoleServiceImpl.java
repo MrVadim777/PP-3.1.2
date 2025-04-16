@@ -42,7 +42,8 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(readOnly = true)
     @Override
     public Role getRoleByName(String name) {
-        return roleRepository.findByName(name);
+        return roleRepository.findByName(name)
+                .orElseThrow(() -> new NoSuchElementException("Роль с названием: " + name + " не найдена"));
     }
 
     @Override
