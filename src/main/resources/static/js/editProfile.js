@@ -12,7 +12,7 @@ export function setupProfileForm() {
         document.getElementById('editName').value = userData.name;
         document.getElementById('editLastName').value = userData.lastName;
         document.getElementById('editEmail').value = userData.email;
-        document.getElementById('editPassword').value = userData.password;
+        document.getElementById('editPassword').value = '';
 
         window._currentUserRoles = userData.roles;
 

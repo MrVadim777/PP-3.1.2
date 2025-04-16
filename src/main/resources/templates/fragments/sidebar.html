@@ -72,11 +72,10 @@
                 th:attr="data-id=${user.id},
                  data-name=${user.name},
                  data-lastname=${user.lastName},
-                 data-email=${user.email},
-                 data-password=${user.password}"
-        data-toggle="modal"
-        data-target="#editModal">
-        Редактировать профиль
+                 data-email=${user.email}"
+                data-toggle="modal"
+                data-target="#editModal">
+            Редактировать профиль
         </button>
 
         <form th:action="@{/logout}" method="post">
