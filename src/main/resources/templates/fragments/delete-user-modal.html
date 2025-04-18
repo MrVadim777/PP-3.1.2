@@ -1,0 +1,48 @@
+<!-- fragments/delete-user-modal.html -->
+<div th:fragment="deleteUserModal">
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteUserModalLabel">Удаление пользователя</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Закрыть">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="delete-user-form">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" id="delete-id" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Имя</label>
+                            <input type="text" class="form-control" id="delete-name" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Фамилия</label>
+                            <input type="text" class="form-control" id="delete-lastname" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" id="delete-email" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Роли</label>
+                            <select multiple class="form-control" id="delete-roles" disabled>
+                                <option value="ROLE_ADMIN">Администратор</option>
+                                <option value="ROLE_USER">Пользователь</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">Удалить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

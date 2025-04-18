@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isAdminView) {
                 rowHtml += `
                     <td><button class="btn btn-primary btn-sm btn-block">Редактировать</button></td>
-                    <td><button class="btn btn-danger btn-sm btn-block">Удалить</button></td>
+                    <td><button class="btn btn-danger btn-sm btn-block delete-btn" data-user-id="${user.id}">Удалить</button></td>
                 `;
             }
 
@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('/api/user/getMyProfile')
         .then(res => res.json())
         .then(user => {
+            window.currentUserId = user.id;
             currentUserRoles = user.roles.map(r => r.name);
             if (currentUserRoles.includes('ROLE_ADMIN')) {
                 switchToAdmin();

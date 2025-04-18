@@ -98,10 +98,13 @@
 
 <script type="module" src="/js/roleSwitch.js"></script>
 <script src="/js/createUser.js"></script>
+<script src="/js/deleteUser.js"></script>
 
 <!-- Подключение локального CSS -->
 <link rel="stylesheet" href="/css/users-table-style.css">
 <link rel="stylesheet" href="/css/header-style.css">
+
+<div th:replace="fragments/delete-user-modal :: deleteUserModal"></div>
 
 </body>
 </html>
