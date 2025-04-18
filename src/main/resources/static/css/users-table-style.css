@@ -1,17 +1,37 @@
-body {
-    background-color: #f8f9fa;
-}
-
 .main-content {
     padding: 20px;
     flex-grow: 1;
     overflow-x: auto;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.main-content.fade-out {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+
+.main-content.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.table td:nth-child(5),
+.table th:nth-child(5) {
+    white-space: nowrap;
+    width: 1%;
 }
 
 .table td,
 .table th {
     text-align: center;
     vertical-align: middle;
-    word-break: break-word;
-    white-space: normal;
+}
+
+.table td.roles-cell {
+    height: 70px; /* или подбери вручную */
+    vertical-align: middle;
 }

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.entity.Role;
+import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.mapper.UserMapper;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -31,6 +32,24 @@ public class AdminUserApiController {
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(UserMapper.toDto(userService.getAllUsers()));
+    }
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        Set<Role> fullRoles = roleService.getRolesByNames(
+                user.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toSet())
+        );
+
+        if (fullRoles.isEmpty()) {
+            fullRoles.add(roleService.getRoleByName("ROLE_USER"));
+        }
+
+        user.setRoles(fullRoles);
+        userService.saveUser(user);
+
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}/roles")
