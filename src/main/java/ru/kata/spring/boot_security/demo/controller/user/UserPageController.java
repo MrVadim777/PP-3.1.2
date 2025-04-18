@@ -21,7 +21,11 @@ public class UserPageController {
     public String showUserPage(Model model, Principal principal) {
         model.addAttribute("user",
                 UserMapper.toDto(userService.getUserByEmail(principal.getName())));
+        model.addAttribute("users",
+                UserMapper.toDto(userService.getUserByEmail(principal.getName())));
+        model.addAttribute("currentUser",
+                UserMapper.toDto(userService.getUserByEmail(principal.getName())));
 
-        return "user";
+        return "users-table";
     }
 }

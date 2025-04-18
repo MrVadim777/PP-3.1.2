@@ -23,7 +23,9 @@ public class AdminPageController {
                 UserMapper.toDto(userService.getAllUsers()));
         model.addAttribute("user",
                 UserMapper.toDto(userService.getUserByEmail(principal.getName())));
+        model.addAttribute("currentUser",
+                UserMapper.toDto(userService.getUserByEmail(principal.getName())));
 
-        return "admin";
+        return "users-table";
     }
 }

@@ -1,89 +1,21 @@
 <div th:fragment="sidebar" class="sidebar d-flex flex-column justify-content-start align-items-stretch" style="min-height: 100vh; width: 300px; background-color: #ffffff; border-right: 1px solid #dee2e6; padding: 20px;">
 
-    <!-- Стиль -->
-    <style>
-        .info-box {
-            border: 1px solid #000;
-            padding: 15px;
-            margin-bottom: 15px;
-            background-color: #f1f1f1;
-            text-align: left;
-            max-height: 300px;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .btn-block {
-            display: block;
-            width: 100%;
-        }
-
-        .edit-btn,
-        .logout-button {
-            padding: 6px 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .edit-btn:hover,
-        .logout-button:hover {
-            background-color: #0056b3;
-        }
-
-        .field-label {
-            margin-bottom: 0;
-            font-weight: bold;
-        }
-
-        .field-value {
-            margin-top: 2px;
-        }
-    </style>
-
-    <!-- Заголовок -->
-    <span th:class="${#lists.contains(user.roles.![name], 'ROLE_ADMIN') ? 'badge text-uppercase fw-bold bg-danger' : 'badge text-uppercase fw-bold bg-primary'}" style="font-size: 1.25rem;"
-          th:text="${#lists.contains(user.roles.![name], 'ROLE_ADMIN') ? 'АДМИНИСТРАТОР' : 'ПОЛЬЗОВАТЕЛЬ'}">
-</span>
-
-    <!-- Информация -->
-    <div class="info-box">
-        <p class="field-label">Имя:</p>
-        <p class="field-value" id="sidebarName" th:text="${user.name}">Имя</p>
-
-        <p class="field-label">Фамилия:</p>
-        <p class="field-value" id="sidebarLastName" th:text="${user.lastName}">Фамилия</p>
-
-        <p class="field-label">Почта:</p>
-        <p class="field-value" id="sidebarEmail" th:text="${user.email}">email@example.com</p>
-
-        <p class="field-label">Роли:</p>
-        <p class="field-value" id="sidebarRoles">
-            <span th:each="role : ${user.roles}"
-                  th:text="${#strings.replace(role.name, 'ROLE_', '') + ' '}">USER</span>
-        </p>
-    </div>
-
-    <!-- Кнопки -->
+    <!-- Кнопки для ролей -->
     <div class="mt-1 w-100">
-        <button class="btn btn-primary btn-block mb-2 edit-btn"
-                th:attr="data-id=${user.id},
-                 data-name=${user.name},
-                 data-lastname=${user.lastName},
-                 data-email=${user.email}"
-                data-toggle="modal"
-                data-target="#editModal">
-            Редактировать профиль
+        <!-- Кнопка "Администратор" -->
+        <!-- Кнопка "Администратор" -->
+        <button id="admin-view-btn"
+                th:if="${#lists.contains(user.roles.![name], 'ROLE_ADMIN')}"
+                class="btn btn-danger btn-block mb-2">
+            Администратор
         </button>
 
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn btn-primary btn-block logout-button">Выйти</button>
-        </form>
+        <!-- Кнопка "Пользователь" -->
+        <button id="user-view-btn"
+                th:if="${#lists.contains(user.roles.![name], 'ROLE_USER')}"
+                class="btn btn-primary btn-block mb-2">
+            Пользователь
+        </button>
     </div>
-
-    <!-- Модальное окно редактирования своего профиля пользователем -->
-    <div th:replace="fragments/user-modal-edit :: editModal"></div>
 
 </div>
