@@ -58,8 +58,14 @@ public class UserServiceImpl implements UserService {
             throw new NoSuchElementException("Пользователь для обновления не найден");
         }
 
-        if (!user.getPassword().startsWith("$2a$")) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getPassword() != null && !user.getPassword().isBlank()) {
+            if (!user.getPassword().startsWith("$2a$")) {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+        } else {
+            User existingUser = userRepository.findById(user.getId())
+                    .orElseThrow(() -> new NoSuchElementException("Пользователь не найден"));
+            user.setPassword(existingUser.getPassword());
         }
 
         userRepository.save(user);

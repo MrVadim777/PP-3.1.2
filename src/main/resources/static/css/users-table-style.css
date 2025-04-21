@@ -32,6 +32,6 @@
 }
 
 .table td.roles-cell {
-    height: 70px; /* или подбери вручную */
+    height: 70px;
     vertical-align: middle;
 }

@@ -3,7 +3,9 @@ package ru.kata.spring.boot_security.demo.controller.admin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.dto.UserCreateDto;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
+import ru.kata.spring.boot_security.demo.dto.UserUpdateDto;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.mapper.UserMapper;
@@ -34,8 +36,17 @@ public class AdminUserApiController {
         return ResponseEntity.ok(UserMapper.toDto(userService.getAllUsers()));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(UserMapper.toDto(user));
+    }
+
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody UserCreateDto user) {
         Set<Role> fullRoles = roleService.getRolesByNames(
                 user.getRoles().stream()
                         .map(Role::getName)
@@ -47,26 +58,22 @@ public class AdminUserApiController {
         }
 
         user.setRoles(fullRoles);
-        userService.saveUser(user);
+        userService.saveUser(UserMapper.toEntity(user));
 
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/roles")
-    public ResponseEntity<Void> updateUserRoles(@PathVariable Long id, @RequestBody Set<Role> roles) {
-        Set<String> roleNames = roles.stream()
-                .map(Role::getName)
-                .collect(Collectors.toSet());
+    @PutMapping
+    public ResponseEntity<UserUpdateDto> updateUser(@RequestBody UserUpdateDto user) {
+        Set<Role> fullRoles = roleService.getRolesByNames(
+                user.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toSet())
+        );
 
-        Set<Role> fullRoles = roleService.getRolesByNames(roleNames);
-
-        if (fullRoles.isEmpty()) {
-            throw new RuntimeException("Роли не найдены: " + roleNames);
-        }
-
-        userService.updateUserRoles(id, fullRoles);
-
-        return ResponseEntity.ok().build();
+        user.setRoles(fullRoles);
+        userService.updateUser(UserMapper.toEntity(user));
+        return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/{id}")

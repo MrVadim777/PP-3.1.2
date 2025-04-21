@@ -1,35 +1,27 @@
 package ru.kata.spring.boot_security.demo.dto;
 
 import ru.kata.spring.boot_security.demo.entity.Role;
-import ru.kata.spring.boot_security.demo.entity.User;
 
 import java.util.Objects;
 import java.util.Set;
 
-public class UserDto {
-    private Long id;
+public class UserCreateDto {
     private String email;
     private String name;
     private String lastName;
     private Set<Role> roles;
 
-    public UserDto() {
+    private String password;
+
+    public UserCreateDto() {
     }
 
-    public UserDto(Long id, String email, String name, String lastName, Set<Role> roles) {
-        this.id = id;
+    public UserCreateDto(String email, String name, String lastName, Set<Role> roles, String password) {
         this.email = email;
         this.name = name;
         this.lastName = lastName;
         this.roles = roles;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.password = password;
     }
 
     public String getEmail() {
@@ -64,11 +56,18 @@ public class UserDto {
         this.roles = roles;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
-        return "UserDto{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
+        return "UserCreateDto{" +
+                "email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", roles=" + roles +
@@ -79,12 +78,15 @@ public class UserDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDto user = (UserDto) o;
-        return Objects.equals(id, user.getId());
+        UserCreateDto that = (UserCreateDto) o;
+        return Objects.equals(email, that.email) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(roles, that.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(email, name, lastName, roles);
     }
 }

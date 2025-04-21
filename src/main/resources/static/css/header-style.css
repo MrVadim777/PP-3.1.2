@@ -1,12 +1,12 @@
 body {
-    padding-top: 50px; /* Отступ сверху для контента */
+    padding-top: 50px;
 }
 
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #222; /* Темный фон */
+    background-color: #222;
     color: white;
     padding: 10px 20px;
     width: 100%;
@@ -14,16 +14,16 @@ body {
     top: 0;
     left: 0;
     z-index: 9999;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Тень для глубины */
-    backdrop-filter: blur(10px); /* Эффект размытия */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
 }
 
 .user-info {
-    font-size: 16px; /* Уменьшенный шрифт для имени пользователя */
+    font-size: 16px;
 }
 
 .logout-button .btn {
-    background-color: #007bff; /* Синий цвет кнопки "Выйти" */
+    background-color: #007bff;
     color: white;
     padding: 5px 10px;
     text-decoration: none;
@@ -32,5 +32,5 @@ body {
 }
 
 .logout-button .btn:hover {
-    background-color: #0056b3; /* Более темный синий при наведении */
+    background-color: #0056b3;
 }

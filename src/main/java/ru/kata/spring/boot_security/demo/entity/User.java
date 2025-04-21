@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.entity;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -36,6 +35,15 @@ public class User {
     }
 
     public User(String email, String name, String lastName, String password, Set<Role> roles) {
+        this.email = email;
+        this.name = name;
+        this.lastName = lastName;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(Long id, String email, String name, String lastName, String password, Set<Role> roles) {
+        this.id = id;
         this.email = email;
         this.name = name;
         this.lastName = lastName;

@@ -40,12 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="roles-cell text-center">
                 ${roles.map(r => `<div><span class="badge ${r === 'Администратор' ? 'badge-danger' : 'badge-primary'}">
                 ${r}</span></div>`).join('')}</td>
-    
             `;
 
             if (isAdminView) {
                 rowHtml += `
-                    <td><button class="btn btn-primary btn-sm btn-block">Редактировать</button></td>
+                    <td><button class="btn btn-primary btn-sm btn-block edit-btn" data-id="${user.id}">Редактировать</button></td>
                     <td><button class="btn btn-danger btn-sm btn-block delete-btn" data-user-id="${user.id}">Удалить</button></td>
                 `;
             }
@@ -78,30 +77,26 @@ document.addEventListener('DOMContentLoaded', () => {
         panelTitle.textContent = currentViewMode === 'admin' ? 'Панель Администратора' : 'Панель Пользователя';
     }
 
-    function switchToAdmin() {
+    function switchToAdmin(user) {
         currentViewMode = 'admin';
         fadeOut(tableContainer, () => {
-            Promise.all([
-                fetch('/api/admin/users').then(r => r.json()),
-                fetch('/api/user/getMyProfile').then(r => r.json())
-            ]).then(([users, user]) => {
-                renderTable(users, true);
-                updateHeader(user);
-                fadeIn(tableContainer);
-            });
+            fetch('/api/admin/users')
+                .then(res => res.json())
+                .then(users => {
+                    renderTable(users, true);
+                    updateHeader(user); // уже полученный user
+                    fadeIn(tableContainer);
+                });
         });
     }
 
-    function switchToUser() {
+
+    function switchToUser(user) {
         currentViewMode = 'user';
         fadeOut(tableContainer, () => {
-            fetch('/api/user/getMyProfile')
-                .then(r => r.json())
-                .then(user => {
-                    renderTable([user], false);
-                    updateHeader(user);
-                    fadeIn(tableContainer);
-                });
+            renderTable([user], false);
+            updateHeader(user);
+            fadeIn(tableContainer);
         });
     }
 
@@ -112,17 +107,25 @@ document.addEventListener('DOMContentLoaded', () => {
             window.currentUserId = user.id;
             currentUserRoles = user.roles.map(r => r.name);
             if (currentUserRoles.includes('ROLE_ADMIN')) {
-                switchToAdmin();
+                switchToAdmin(user);
             } else {
-                switchToUser();
+                switchToUser(user);
             }
         });
 
     adminBtn?.addEventListener('click', () => {
-        if (currentViewMode !== 'admin') switchToAdmin();
+        if (currentViewMode !== 'admin') {
+            fetch('/api/user/getMyProfile')
+                .then(r => r.json())
+                .then(user => switchToAdmin(user));
+        }
     });
 
     userBtn?.addEventListener('click', () => {
-        if (currentViewMode !== 'user') switchToUser();
+        if (currentViewMode !== 'user') {
+            fetch('/api/user/getMyProfile')
+                .then(r => r.json())
+                .then(user => switchToUser(user));
+        }
     });
 });
