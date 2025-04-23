@@ -6,22 +6,26 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final RoleService roleService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(final UserRepository userRepository,
+    public UserServiceImpl(final RoleService roleService, final UserRepository userRepository,
                            final PasswordEncoder passwordEncoder) {
 
+        this.roleService = roleService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -48,6 +52,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
+        Set<Role> fullRoles = roleService.getRolesByNames(
+                user.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toSet())
+        );
+
+        if (fullRoles.isEmpty()) {
+            fullRoles.add(roleService.getRoleByName("ROLE_USER"));
+        }
+
+        user.setRoles(fullRoles);
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -64,10 +80,17 @@ public class UserServiceImpl implements UserService {
             }
         } else {
             User existingUser = userRepository.findById(user.getId())
-                    .orElseThrow(() -> new NoSuchElementException("Пользователь не найден"));
+                    .orElseThrow(() -> new NoSuchElementException("Пользователь для обновления не найден"));
             user.setPassword(existingUser.getPassword());
         }
 
+        Set<Role> fullRoles = roleService.getRolesByNames(
+                user.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toSet())
+        );
+
+        user.setRoles(fullRoles);
         userRepository.save(user);
     }
 
